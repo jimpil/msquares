@@ -17,15 +17,18 @@
     (throw (IllegalArgumentException. "Wrong input! Need a positive integer..."))))
 
 (defn -main [& args]
-  (let [n (Long/parseLong (first args))
-        M (long (ut/magic-constant n))
-        [order sq] (produce-appropriate-square n)
-        columns (range 1 (inc n))]
-    (println order "magic square")
-    (println "Magic Constant:" M)
-    (println "========================")
-    (pretty/print-table (map #(into (sorted-map)
-                                    (map vector columns %))
-                             sq))
+  (time
+    (let [n (Long/parseLong (first args))
+          M (long (ut/magic-constant n))
+          [order sq] (produce-appropriate-square n)
+          columns (range 1 (inc n))]
+      (println order "magic square")
+      (println "Magic Constant:" M)
+      (println "========================")
+      (pretty/print-table (map #(into (sorted-map)
+                                      (map vector columns %))
+                               sq))
+      (println)
+      )
     )
   )
