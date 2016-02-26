@@ -5,7 +5,7 @@
   (apply map vector square))
 
 (defn last-no
-  "Is always opposite the number 1 in an outside column/row."
+  "The biggest number in magic square of order <n>."
   [n]
   (* n n))
 
