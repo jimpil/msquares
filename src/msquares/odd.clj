@@ -5,22 +5,17 @@
 
 ;; ==================<ODD SQUARES>================================
 
-(defn- magic?
+(defn- magic-odd?
   "Validates whether aN odd square is magic. Returns true/false."
   [square]
   (let [n (count square)
-        M (ut/magic-constant n)
         last-number (ut/last-no n)
         middle-number (ut/middle-no n)
-        [mi mj] (repeat 2 (long (/ n 2)))
-        Mtest (fn [row-or-column]
-                (= M (apply + row-or-column)))]
-    (and (every? Mtest square)                ;; test rows sum
-         (every? Mtest (ut/transpose square)) ;; test columns sum
-         (every? Mtest (ut/diagonals square)) ;; test diagonals
+        [mi mj] (repeat 2 (long (/ n 2)))]
+    (and (ut/magic? square) ;; test diagonals
          (= middle-number (get-in square [mi mj]))     ;; test middle number
-         (= last-number (get-in square [(dec n) mj]))  ;; test last number
-         )))
+         (= last-number (get-in square [(dec n) mj])))  ;; test last number
+         ))
 
 (defn- fill
   "The actual formula for populating each square in a 2D matrix of size <n>."
@@ -39,7 +34,7 @@
   {:pre  [(integer? n)
           (>= n 1)
           (odd? n)]
-   :post [(magic? %)]}
+   :post [(magic-odd? %)]}
 
   (let [mrange (range 1 (inc n))
         square (mapv (fn [i]

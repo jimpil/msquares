@@ -4,19 +4,6 @@
   (:import (java.util.concurrent.atomic AtomicLong)))
 ;;http://www.1728.org/magicsq2.htm
 
-(defn- magic?
-  "Validates whether a square is magic. Returns true/false."
-  [square]
-  (let [n (count square)
-        M (ut/magic-constant n)
-        Mtest (fn [row-or-column]
-                (= M (apply + row-or-column)))]
-    (and (every? Mtest square)                ;; test rows sum
-         (every? Mtest (ut/transpose square)) ;; test columns sum
-         (every? Mtest (ut/diagonals square)) ;; test diagonals sum
-         )))
-
-
 (defn- initial-step [n]
   (let [ys-no (/ n 4)
         xs-no (/ n 2)
@@ -54,7 +41,7 @@
 (defn doubly-even-msquare [n]
   {:pre  [(pos? n)
           (ut/multiple? n 4)]
-   :post [(magic? %)]}
+   :post [(ut/magic? %)]}
 
   (let [isquare (initial-step n)
         idx (AtomicLong. (* n n))]
@@ -112,7 +99,7 @@
   {:pre  [(>= n 6)
           (not (ut/multiple? n 4))
           (ut/multiple? n 2)]
-   :post [(magic? %)]}
+   :post [(ut/magic? %)]}
 
   (let [sq-n (/ n 2)
         sq-n-sq (* sq-n sq-n)

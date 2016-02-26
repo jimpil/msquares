@@ -32,3 +32,17 @@
 
 (defn multiple? [x y]
   (zero? (rem x y)))
+
+(defn- sum [row-or-column-or-diagonal]
+  (apply + row-or-column-or-diagonal))
+
+(defn magic?
+  "Validates whether a square is magic. Returns true/false."
+  [square]
+  (let [n (count square)
+        M (magic-constant n)
+        Mtest (comp (partial = M) sum)]
+    (and (every? Mtest square)             ;; test rows sum
+         (every? Mtest (transpose square)) ;; test columns sum
+         (every? Mtest (diagonals square)) ;; test diagonals sum
+         )))
